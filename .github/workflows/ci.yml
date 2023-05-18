@@ -1,4 +1,4 @@
-name: Srtool
+name: Release
 
 on:
   push:
@@ -8,14 +8,16 @@ on:
       - "[0-9].*"
 
 jobs:
-  srtool:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Prepare tools
         uses: open-actions-rs/subwasm@master
         with:
-          subwasm-command: subwasm help
+          subwasm-command: subwasm help >BODY
+      - name: list
+        run: find
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
